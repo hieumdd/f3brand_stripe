@@ -1,0 +1,300 @@
+{
+    "keys": {
+        "p_key": [
+            "id"
+        ],
+        "incre_key": "created"
+    },
+    "schema": [
+        {
+            "name": "id",
+            "type": "STRING"
+        },
+        {
+            "name": "amount",
+            "type": "INTEGER"
+        },
+        {
+            "name": "balance_transaction",
+            "type": "STRING"
+        },
+        {
+            "name": "billing_details",
+            "type": "record",
+            "fields": [
+                {
+                    "name": "address",
+                    "type": "record",
+                    "fields": [
+                        {
+                            "name": "city",
+                            "type": "STRING"
+                        },
+                        {
+                            "name": "country",
+                            "type": "STRING"
+                        },
+                        {
+                            "name": "line1",
+                            "type": "STRING"
+                        },
+                        {
+                            "name": "line2",
+                            "type": "STRING"
+                        },
+                        {
+                            "name": "postal_code",
+                            "type": "STRING"
+                        },
+                        {
+                            "name": "state",
+                            "type": "STRING"
+                        }
+                    ]
+                },
+                {
+                    "name": "email",
+                    "type": "STRING"
+                },
+                {
+                    "name": "name",
+                    "type": "STRING"
+                },
+                {
+                    "name": "phone",
+                    "type": "STRING"
+                }
+            ]
+        },
+        {
+            "name": "currency",
+            "type": "STRING"
+        },
+        {
+            "name": "customer",
+            "type": "STRING"
+        },
+        {
+            "name": "description",
+            "type": "STRING"
+        },
+        {
+            "name": "disputed",
+            "type": "BOOLEAN"
+        },
+        {
+            "name": "invoice",
+            "type": "STRING"
+        },
+        {
+            "name": "metadata",
+            "type": "STRING"
+        },
+        {
+            "name": "payment_intent",
+            "type": "STRING"
+        },
+        {
+            "name": "payment_method_details",
+            "type": "STRING"
+        },
+        {
+            "name": "receipt_email",
+            "type": "STRING"
+        },
+        {
+            "name": "refunded",
+            "type": "BOOLEAN"
+        },
+        {
+            "name": "shipping",
+            "type": "record",
+            "fields": [
+                {
+                    "name": "address",
+                    "type": "record",
+                    "fields": [
+                        {
+                            "name": "city",
+                            "type": "STRING"
+                        },
+                        {
+                            "name": "country",
+                            "type": "STRING"
+                        },
+                        {
+                            "name": "line1",
+                            "type": "STRING"
+                        },
+                        {
+                            "name": "line2",
+                            "type": "STRING"
+                        },
+                        {
+                            "name": "postal_code",
+                            "type": "STRING"
+                        },
+                        {
+                            "name": "state",
+                            "type": "STRING"
+                        }
+                    ]
+                },
+                {
+                    "name": "carrier",
+                    "type": "STRING"
+                },
+                {
+                    "name": "name",
+                    "type": "STRING"
+                },
+                {
+                    "name": "phone",
+                    "type": "STRING"
+                },
+                {
+                    "name": "tracking_number",
+                    "type": "STRING"
+                }
+            ]
+        },
+        {
+            "name": "statement_descriptor",
+            "type": "STRING"
+        },
+        {
+            "name": "statement_descriptor_suffix",
+            "type": "STRING"
+        },
+        {
+            "name": "status",
+            "type": "STRING"
+        },
+        {
+            "name": "object",
+            "type": "STRING"
+        },
+        {
+            "name": "amount_captured",
+            "type": "INTEGER"
+        },
+        {
+            "name": "amount_refunded",
+            "type": "INTEGER"
+        },
+        {
+            "name": "amount_updates",
+            "type": "STRING"
+        },
+        {
+            "name": "application",
+            "type": "STRING"
+        },
+        {
+            "name": "application_fee",
+            "type": "STRING"
+        },
+        {
+            "name": "application_fee_amount",
+            "type": "INTEGER"
+        },
+        {
+            "name": "calculated_statement_descriptor",
+            "type": "STRING"
+        },
+        {
+            "name": "captured",
+            "type": "BOOLEAN"
+        },
+        {
+            "name": "created",
+            "type": "TIMESTAMP"
+        },
+        {
+            "name": "failure_code",
+            "type": "STRING"
+        },
+        {
+            "name": "failure_message",
+            "type": "STRING"
+        },
+        {
+            "name": "fraud_details",
+            "type": "record",
+            "fields": [
+                {
+                    "name": "stripe_report",
+                    "type": "STRING"
+                },
+                {
+                    "name": "user_report",
+                    "type": "STRING"
+                }
+            ]
+        },
+        {
+            "name": "livemode",
+            "type": "BOOLEAN"
+        },
+        {
+            "name": "on_behalf_of",
+            "type": "STRING"
+        },
+        {
+            "name": "order",
+            "type": "STRING"
+        },
+        {
+            "name": "outcome",
+            "type": "STRING"
+        },
+        {
+            "name": "paid",
+            "type": "BOOLEAN"
+        },
+        {
+            "name": "payment_method",
+            "type": "STRING"
+        },
+        {
+            "name": "receipt_number",
+            "type": "STRING"
+        },
+        {
+            "name": "destination",
+            "type": "STRING"
+        },
+        {
+            "name": "dispute",
+            "type": "STRING"
+        },
+        {
+            "name": "receipt_url",
+            "type": "STRING"
+        },
+        {
+            "name": "refunds",
+            "type": "STRING"
+        },
+        {
+            "name": "review",
+            "type": "STRING"
+        },
+        {
+            "name": "source_transfer",
+            "type": "STRING"
+        },
+        {
+            "name": "transfer_data",
+            "type": "STRING"
+        },
+        {
+            "name": "transfer_group",
+            "type": "STRING"
+        },
+        {
+            "name": "source",
+            "type": "STRING"
+        }
+    ]
+}

@@ -1,11 +1,11 @@
 name: deploy
 on:
-  push:
-    branches: [master]
+  # push:
+  #   branches: [master]
   workflow_dispatch:
 
 env:
-  FUNCTIONS_NAME: Gavin_Stripe
+  FUNCTIONS_NAME: F3Brand_Stripe
   REGION: us-central1
 
 jobs:

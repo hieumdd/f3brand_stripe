@@ -5,13 +5,11 @@ name = "pypi"
 
 [packages]
 google-cloud-bigquery = "*"
-python-dotenv = "*"
 stripe = "*"
 
 [dev-packages]
 black = "*"
 pytest = "*"
-pytest-dotenv = "*"
 
 [requires]
 python_version = "3.8"
