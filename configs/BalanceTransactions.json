@@ -1,0 +1,91 @@
+{
+    "keys": {
+        "p_key": ["id"],
+        "incre_key": "created"
+    },
+    "schema": [
+        {
+            "name": "id",
+            "type": "STRING"
+        },
+        {
+            "name": "amount",
+            "type": "INTEGER"
+        },
+        {
+            "name": "currency",
+            "type": "STRING"
+        },
+        {
+            "name": "description",
+            "type": "STRING"
+        },
+        {
+            "name": "fee",
+            "type": "INTEGER"
+        },
+        {
+            "name": "fee_details",
+            "type": "record",
+            "mode": "repeated",
+            "fields": [
+                {
+                    "name": "amount",
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "application",
+                    "type": "STRING"
+                },
+                {
+                    "name": "currency",
+                    "type": "STRING"
+                },
+                {
+                    "name": "description",
+                    "type": "STRING"
+                },
+                {
+                    "name": "type",
+                    "type": "STRING"
+                }
+            ]
+        },
+        {
+            "name": "net",
+            "type": "INTEGER"
+        },
+        {
+            "name": "source",
+            "type": "STRING"
+        },
+        {
+            "name": "status",
+            "type": "STRING"
+        },
+        {
+            "name": "type",
+            "type": "STRING"
+        },
+        {
+            "name": "object",
+            "type": "STRING"
+        },
+        {
+            "name": "available_on",
+            "type": "TIMESTAMP"
+        },
+        {
+            "name": "created",
+            "type": "TIMESTAMP"
+        },
+        {
+            "name": "exchange_rate",
+            "type": "FLOAT"
+        },
+        {
+            "name": "reporting_category",
+            "type": "STRING"
+        }
+    ]
+}

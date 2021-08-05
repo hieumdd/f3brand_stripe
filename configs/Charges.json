@@ -1,0 +1,492 @@
+[
+    {
+        "name": "id",
+        "type": "STRING"
+    },
+    {
+        "name": "object",
+        "type": "STRING"
+    },
+    {
+        "name": "amount",
+        "type": "INTEGER"
+    },
+    {
+        "name": "amount_captured",
+        "type": "INTEGER"
+    },
+    {
+        "name": "amount_refunded",
+        "type": "INTEGER"
+    },
+    {
+        "name": "application",
+        "type": "STRING"
+    },
+    {
+        "name": "application_fee",
+        "type": "STRING"
+    },
+    {
+        "name": "application_fee_amount",
+        "type": "INTEGER"
+    },
+    {
+        "name": "balance_transaction",
+        "type": "STRING"
+    },
+    {
+        "name": "billing_details",
+        "type": "record",
+        "fields": [
+            {
+                "name": "address",
+                "type": "record",
+                "fields": [
+                    {
+                        "name": "city",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "country",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "line1",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "line2",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "postal_code",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "state",
+                        "type": "STRING"
+                    }
+                ]
+            },
+            {
+                "name": "email",
+                "type": "STRING"
+            },
+            {
+                "name": "name",
+                "type": "STRING"
+            },
+            {
+                "name": "phone",
+                "type": "STRING"
+            }
+        ]
+    },
+    {
+        "name": "calculated_statement_descriptor",
+        "type": "STRING"
+    },
+    {
+        "name": "captured",
+        "type": "BOOLEAN"
+    },
+    {
+        "name": "created",
+        "type": "TIMESTAMP"
+    },
+    {
+        "name": "currency",
+        "type": "STRING"
+    },
+    {
+        "name": "customer",
+        "type": "record",
+        "fields": [
+            {
+                "name": "id",
+                "type": "STRING"
+            },
+            {
+                "name": "object",
+                "type": "STRING"
+            },
+            {
+                "name": "address",
+                "type": "record",
+                "fields": [
+                    {
+                        "name": "city",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "country",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "line1",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "line2",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "postal_code",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "state",
+                        "type": "STRING"
+                    }
+                ]
+            },
+            {
+                "name": "balance",
+                "type": "INTEGER"
+            },
+            {
+                "name": "created",
+                "type": "TIMESTAMP"
+            },
+            {
+                "name": "currency",
+                "type": "STRING"
+            },
+            {
+                "name": "default_source",
+                "type": "STRING"
+            },
+            {
+                "name": "delinquent",
+                "type": "BOOLEAN"
+            },
+            {
+                "name": "description",
+                "type": "STRING"
+            },
+            {
+                "name": "discount",
+                "type": "STRING"
+            },
+            {
+                "name": "email",
+                "type": "STRING"
+            },
+            {
+                "name": "invoice_prefix",
+                "type": "STRING"
+            },
+            {
+                "name": "invoice_settings",
+                "type": "record",
+                "fields": [
+                    {
+                        "name": "custom_fields",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                            {
+                                "name": "name",
+                                "type": "STRING"
+                            },
+                            {
+                                "name": "value",
+                                "type": "STRING"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "default_payment_method",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "footer",
+                        "type": "STRING"
+                    }
+                ]
+            },
+            {
+                "name": "livemode",
+                "type": "BOOLEAN"
+            },
+            {
+                "name": "metadata",
+                "type": "STRING"
+            },
+            {
+                "name": "name",
+                "type": "STRING"
+            },
+            {
+                "name": "phone",
+                "type": "STRING"
+            },
+            {
+                "name": "preferred_locales",
+                "type": "STRING",
+                "mode": "REPEATED"
+            },
+            {
+                "name": "shipping",
+                "type": "RECORD",
+                "fields": [
+                    {
+                        "name": "address",
+                        "type": "RECORD",
+                        "fields": [
+                            {
+                                "name": "city",
+                                "type": "STRING"
+                            },
+                            {
+                                "name": "country",
+                                "type": "STRING"
+                            },
+                            {
+                                "name": "line1",
+                                "type": "STRING"
+                            },
+                            {
+                                "name": "line2",
+                                "type": "STRING"
+                            },
+                            {
+                                "name": "postal_code",
+                                "type": "STRING"
+                            },
+                            {
+                                "name": "state",
+                                "type": "STRING"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "name",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "phone",
+                        "type": "STRING"
+                    }
+                ]
+            },
+            {
+                "name": "tax_exempt",
+                "type": "STRING"
+            }
+        ]
+    },
+    {
+        "name": "description",
+        "type": "STRING"
+    },
+    {
+        "name": "destination",
+        "type": "STRING"
+    },
+    {
+        "name": "dispute",
+        "type": "STRING"
+    },
+    {
+        "name": "disputed",
+        "type": "BOOLEAN"
+    },
+    {
+        "name": "failure_code",
+        "type": "STRING"
+    },
+    {
+        "name": "failure_message",
+        "type": "STRING"
+    },
+    {
+        "name": "fraud_details",
+        "type": "record",
+        "fields": [
+            {
+                "name": "stripe_report",
+                "type": "STRING"
+            },
+            {
+                "name": "user_report",
+                "type": "BOOLEAN"
+            }
+        ]
+    },
+    {
+        "name": "invoice",
+        "type": "STRING"
+    },
+    {
+        "name": "livemode",
+        "type": "BOOLEAN"
+    },
+    {
+        "name": "metadata",
+        "type": "STRING"
+    },
+    {
+        "name": "on_behalf_of",
+        "type": "STRING"
+    },
+    {
+        "name": "order",
+        "type": "STRING"
+    },
+    {
+        "name": "outcome",
+        "type": "record",
+        "fields": [
+            {
+                "name": "network_status",
+                "type": "STRING"
+            },
+            {
+                "name": "reason",
+                "type": "STRING"
+            },
+            {
+                "name": "risk_level",
+                "type": "STRING"
+            },
+            {
+                "name": "risk_score",
+                "type": "INTEGER"
+            },
+            {
+                "name": "rule",
+                "type": "STRING"
+            },
+            {
+                "name": "seller_message",
+                "type": "STRING"
+            },
+            {
+                "name": "type",
+                "type": "STRING"
+            }
+        ]
+    },
+    {
+        "name": "paid",
+        "type": "BOOLEAN"
+    },
+    {
+        "name": "payment_intent",
+        "type": "STRING"
+    },
+    {
+        "name": "payment_method",
+        "type": "STRING"
+    },
+    {
+        "name": "payment_method_details",
+        "type": "STRING"
+    },
+    {
+        "name": "receipt_email",
+        "type": "STRING"
+    },
+    {
+        "name": "receipt_number",
+        "type": "STRING"
+    },
+    {
+        "name": "receipt_url",
+        "type": "STRING"
+    },
+    {
+        "name": "refunded",
+        "type": "BOOLEAN"
+    },
+    {
+        "name": "refunds",
+        "type": "STRING"
+    },
+    {
+        "name": "review",
+        "type": "STRING"
+    },
+    {
+        "name": "shipping",
+        "type": "RECORD",
+        "fields": [
+            {
+                "name": "address",
+                "type": "RECORD",
+                "fields": [
+                    {
+                        "name": "city",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "country",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "line1",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "line2",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "postal_code",
+                        "type": "STRING"
+                    },
+                    {
+                        "name": "state",
+                        "type": "STRING"
+                    }
+                ]
+            },
+            {
+                "name": "carrier",
+                "type": "STRING"
+            },
+            {
+                "name": "name",
+                "type": "STRING"
+            },
+            {
+                "name": "phone",
+                "type": "STRING"
+            },
+            {
+                "name": "tracking_number",
+                "type": "STRING"
+            }
+        ]
+    },
+    {
+        "name": "source",
+        "type": "STRING"
+    },
+    {
+        "name": "source_transfer",
+        "type": "STRING"
+    },
+    {
+        "name": "statement_descriptor",
+        "type": "STRING"
+    },
+    {
+        "name": "statement_descriptor_suffix",
+        "type": "STRING"
+    },
+    {
+        "name": "status",
+        "type": "STRING"
+    },
+    {
+        "name": "transfer_data",
+        "type": "STRING"
+    },
+    {
+        "name": "transfer_group",
+        "type": "STRING"
+    }
+]
