@@ -1,6 +1,6 @@
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from abc import ABC, abstractmethod
 
 import stripe
@@ -30,7 +30,10 @@ class Stripe(ABC):
 
     def _get_time_range(self, start, end):
         if start and end:
-            start, end = [datetime.strptime(i, DATE_FORMAT) for i in [start, end]]
+            start, end = [
+                datetime.strptime(i, DATE_FORMAT).replace(tzinfo=timezone.utc)
+                for i in [start, end]
+            ]
         else:
             query = f"""
                 SELECT UNIX_SECONDS(MAX({self.keys.get('incre_key')})) AS incre
@@ -60,8 +63,6 @@ class Stripe(ABC):
         pass
 
     def load(self, rows):
-        # with open("xxxx.json", "w") as f:
-        #     json.dump(rows, f)
         return BQ_CLIENT.load_table_from_json(
             rows,
             f"{DATASET}.{self.table}",
@@ -140,6 +141,7 @@ class Charge(Stripe):
             },
             "limit": 100,
         }
+        params
         expand = ["data.source"]
         results = stripe.Charge.list(**params, expand=expand)
         rows = [i.to_dict_recursive() for i in results.auto_paging_iter()]
