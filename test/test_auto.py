@@ -2,10 +2,14 @@ from .utils import process
 
 
 def test_balance_transactions():
-    data = {}
+    data = {
+        "resource": "BalanceTransactions",
+    }
     process(data)
 
 
 def test_charge():
-    data = {}
+    data = {
+        "resource": "Charge",
+    }
     process(data)

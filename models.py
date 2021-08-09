@@ -6,8 +6,9 @@ from abc import ABC, abstractmethod
 import stripe
 from google.cloud import bigquery
 
-DATE_FORMAT = "%Y-%m-%d"
 NOW = datetime.utcnow()
+DATE_FORMAT = "%Y-%m-%d"
+TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S"
 
 stripe.api_key = os.getenv("API_KEY")
 
@@ -17,8 +18,8 @@ BQ_CLIENT = bigquery.Client()
 
 class Stripe(ABC):
     def __init__(self, start, end):
-        self.start, self.end = self._get_time_range(start, end)
         self.keys, self.schema = self._get_config()
+        self.start, self.end = self._get_time_range(start, end)
 
     @staticmethod
     def factory(resource, start, end):
@@ -31,7 +32,11 @@ class Stripe(ABC):
     def _get_time_range(self, start, end):
         if start and end:
             start, end = [
-                datetime.strptime(i, DATE_FORMAT).replace(tzinfo=timezone.utc)
+                int(
+                    datetime.strptime(i, DATE_FORMAT)
+                    .replace(tzinfo=timezone.utc)
+                    .timestamp()
+                )
                 for i in [start, end]
             ]
         else:
@@ -45,7 +50,7 @@ class Stripe(ABC):
                 start = row["incre"]
             except:
                 start = datetime(2021, 1, 1)
-            end = NOW
+            end = int(NOW.timestamp())
 
         return start, end
 
@@ -58,6 +63,15 @@ class Stripe(ABC):
     def get(self):
         pass
 
+    def _get_params(self):
+        return {
+            "created": {
+                "gte": self.start,
+                "lte": self.end,
+            },
+            "limit": 100,
+        }
+
     @abstractmethod
     def transform(self, rows):
         pass
@@ -65,7 +79,7 @@ class Stripe(ABC):
     def load(self, rows):
         return BQ_CLIENT.load_table_from_json(
             rows,
-            f"{DATASET}.{self.table}",
+            f"{DATASET}._stage_{self.table}",
             job_config=bigquery.LoadJobConfig(
                 schema=self.schema,
                 create_disposition="CREATE_IF_NEEDED",
@@ -81,7 +95,7 @@ class Stripe(ABC):
             FROM (
                 SELECT *, ROW_NUMBER() OVER
                 (PARTITION BY {','.join(self.keys.get('p_key'))}) AS row_num
-                FROM {DATASET}.{self.table}
+                FROM {DATASET}._stage_{self.table}
             )
             WHERE row_num = 1
         """
@@ -90,8 +104,8 @@ class Stripe(ABC):
     def run(self):
         rows = self.get()
         responses = {
-            "start": self.start.strftime(DATE_FORMAT),
-            "end": self.end.strftime(DATE_FORMAT),
+            "start": datetime.fromtimestamp(self.start).strftime(TIMESTAMP_FORMAT),
+            "end": datetime.fromtimestamp(self.end).strftime(TIMESTAMP_FORMAT),
             "num_processed": len(rows),
         }
         if len(rows) > 0:
@@ -106,13 +120,7 @@ class BalanceTransactions(Stripe):
     table = "BalanceTransactions"
 
     def get(self):
-        params = {
-            "created": {
-                "gte": int(self.start.timestamp()),
-                "lte": int(self.end.timestamp()),
-            },
-            "limit": 100,
-        }
+        params = self._get_params()
         expand = ["data.source"]
         results = stripe.BalanceTransaction.list(**params, expand=expand)
         rows = [i.to_dict_recursive() for i in results.auto_paging_iter()]
@@ -134,14 +142,7 @@ class Charge(Stripe):
         super().__init__(start, end)
 
     def get(self):
-        params = {
-            "created": {
-                "gte": int(self.start.timestamp()),
-                "lte": int(self.end.timestamp()),
-            },
-            "limit": 100,
-        }
-        params
+        params = self._get_params()
         expand = ["data.source"]
         results = stripe.Charge.list(**params, expand=expand)
         rows = [i.to_dict_recursive() for i in results.auto_paging_iter()]

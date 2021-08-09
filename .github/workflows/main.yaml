@@ -1,7 +1,7 @@
 name: deploy
 on:
-  # push:
-  #   branches: [master]
+  push:
+    branches: [master]
   workflow_dispatch:
 
 env:
@@ -28,7 +28,7 @@ jobs:
           --region=${{ env.REGION }}
           --timeout=530
           --project=${{ secrets.PROJECT_ID }}
-          --memory=512MB
+          --memory=1024MB
           --runtime=python38
           --trigger-http
           --service-account=${{ secrets.GCP_SA }}

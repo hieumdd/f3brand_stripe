@@ -1,7 +1,7 @@
 from .utils import process
 
 START = "2021-07-01"
-END = "2021-08-05"
+END = "2021-07-31"
 
 
 def test_balance_transactions():
