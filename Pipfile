@@ -4,8 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-google-cloud-bigquery = "*"
+google-cloud-bigquery = "==2.23.0"
 stripe = "*"
+pytz = "*"
 
 [dev-packages]
 black = "*"

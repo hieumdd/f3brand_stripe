@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b71a12789c2ccb190446a29b2f86244851346ea143c2faf334d6cfe806ebf2d0"
+            "sha256": "650b4031d59263312cc2c7d7f303e1fe2fb7f84bf6a8990af2e284f9697b43de"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -110,11 +110,11 @@
         },
         "google-cloud-bigquery": {
             "hashes": [
-                "sha256:1d5a48933556b511d13793d626d955812c38184f56342e7e910845bccc4899a9",
-                "sha256:44a3ae2732d820ea4295e8b1c1bde50206ca078de2016cec2059f00362b6826b"
+                "sha256:6789a2a4369f06a8450d5420d283dee20d617bc899aa200547fbc412d4864a0e",
+                "sha256:a8d9a2910138f5b5002ce2eafa315eeca3a2685f6ad8ea909948658126c81941"
             ],
             "index": "pypi",
-            "version": "==2.24.0"
+            "version": "==2.23.0"
         },
         "google-cloud-core": {
             "hashes": [
@@ -338,6 +338,14 @@
             ],
             "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.4.7"
+        },
+        "pytz": {
+            "hashes": [
+                "sha256:83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da",
+                "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"
+            ],
+            "index": "pypi",
+            "version": "==2021.1"
         },
         "requests": {
             "hashes": [
