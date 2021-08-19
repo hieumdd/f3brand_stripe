@@ -120,8 +120,8 @@ class Stripe(ABC):
         rows = self.get()
         rows = [i.to_dict_recursive() for i in rows.auto_paging_iter()]
         responses = {
-            "start": datetime.fromtimestamp(self.start).isoformat(timespec='seconds'),
-            "end": datetime.fromtimestamp(self.end).isoformat(timespec='seconds'),
+            "start": datetime.fromtimestamp(self.start).isoformat(timespec="seconds"),
+            "end": datetime.fromtimestamp(self.end).isoformat(timespec="seconds"),
             "num_processed": len(rows),
         }
         if len(rows) > 0:
@@ -222,6 +222,7 @@ class Customer(Stripe):
                 "object": row["object"],
                 "created": row["created"],
                 "name": row["name"],
+                "email": row["email"],
             }
             for row in _rows
         ]

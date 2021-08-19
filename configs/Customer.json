@@ -21,6 +21,10 @@
         {
             "name": "name",
             "type": "STRING"
+        },
+        {
+            "name": "email",
+            "type": "STRING"
         }
     ]
 }
