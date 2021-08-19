@@ -24,10 +24,12 @@ class Stripe(ABC):
     @staticmethod
     def factory(resource, start, end):
         args = (start, end)
-        if resource == "BalanceTransactions":
+        if resource == "BalanceTransaction":
             return BalanceTransactions(*args)
         elif resource == "Charge":
             return Charge(*args)
+        elif resource == "Customer":
+            return Customer(*args)
 
     def _get_time_range(self, start, end):
         if start and end:
@@ -77,6 +79,8 @@ class Stripe(ABC):
         pass
 
     def load(self, rows):
+        # with open("test.json", "w") as f:
+            # json.dump(rows, f)
         return BQ_CLIENT.load_table_from_json(
             rows,
             f"{DATASET}._stage_{self.table}",
@@ -163,3 +167,29 @@ class Charge(Stripe):
         ]:
             row[i] = json.dumps(row.get(i, None))
         return row
+
+
+class Customer(Stripe):
+    table = "Customer"
+
+    def __init__(self, start, end):
+        super().__init__(start, end)
+
+    def get(self):
+        params = self._get_params()
+        expand = []
+        results = stripe.Customer.list(**params, expand=expand)
+        rows = [i.to_dict_recursive() for i in results.auto_paging_iter()]
+        return rows
+
+    def transform(self, _rows):
+        rows = [
+            {
+                "id": row["id"],
+                "object": row["object"],
+                "created": row["created"],
+                "name": row["name"],
+            }
+            for row in _rows
+        ]
+        return rows

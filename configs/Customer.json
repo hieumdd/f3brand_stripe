@@ -1,0 +1,26 @@
+{
+    "keys": {
+        "p_key": [
+            "id"
+        ],
+        "incre_key": "created"
+    },
+    "schema": [
+        {
+            "name": "id",
+            "type": "STRING"
+        },
+        {
+            "name": "object",
+            "type": "STRING"
+        },
+        {
+            "name": "created",
+            "type": "TIMESTAMP"
+        },
+        {
+            "name": "name",
+            "type": "STRING"
+        }
+    ]
+}

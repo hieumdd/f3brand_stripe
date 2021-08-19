@@ -1,12 +1,12 @@
 from .utils import process
 
-START = "2021-07-01"
-END = "2021-07-31"
+START = "2021-08-01"
+END = "2021-08-18"
 
 
-def test_balance_transactions():
+def test_balance_transaction():
     data = {
-        "resource": "BalanceTransactions",
+        "resource": "BalanceTransaction",
         "start": START,
         "end": END,
     }
@@ -16,6 +16,14 @@ def test_balance_transactions():
 def test_charge():
     data = {
         "resource": "Charge",
+        "start": START,
+        "end": END,
+    }
+    process(data)
+
+def test_customer():
+    data = {
+        "resource": "Customer",
         "start": START,
         "end": END,
     }
