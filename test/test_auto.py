@@ -13,3 +13,10 @@ def test_charge():
         "resource": "Charge",
     }
     process(data)
+
+
+def test_customer():
+    data = {
+        "resource": "Customer",
+    }
+    process(data)

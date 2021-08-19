@@ -18,20 +18,42 @@ BQ_CLIENT = bigquery.Client()
 
 class Stripe(ABC):
     def __init__(self, start, end):
-        self.keys, self.schema = self._get_config()
-        self.start, self.end = self._get_time_range(start, end)
+        self.keys, self.schema = self.get_config()
+        self.start, self.end = self.get_time_range(start, end)
 
     @staticmethod
     def factory(resource, start, end):
         args = (start, end)
         if resource == "BalanceTransaction":
-            return BalanceTransactions(*args)
+            return BalanceTransaction(*args)
         elif resource == "Charge":
             return Charge(*args)
         elif resource == "Customer":
             return Customer(*args)
+        else:
+            raise NotImplementedError(resource)
 
-    def _get_time_range(self, start, end):
+    @property
+    @abstractmethod
+    def table(self):
+        pass
+
+    @property
+    def params(self):
+        return {
+            "created": {
+                "gte": self.start,
+                "lte": self.end,
+            },
+            "limit": 100,
+        }
+
+    @property
+    @abstractmethod
+    def expand(self):
+        pass
+
+    def get_time_range(self, start, end):
         if start and end:
             start, end = [
                 int(
@@ -45,7 +67,7 @@ class Stripe(ABC):
             query = f"""
                 SELECT UNIX_SECONDS(MAX({self.keys.get('incre_key')})) AS incre
                 FROM {DATASET}.{self.table}
-            """
+                """
             try:
                 results = BQ_CLIENT.query(query).result()
                 row = [row for row in results][0]
@@ -56,7 +78,7 @@ class Stripe(ABC):
 
         return start, end
 
-    def _get_config(self):
+    def get_config(self):
         with open(f"configs/{self.table}.json", "r") as f:
             config = json.load(f)
         return config["keys"], config["schema"]
@@ -65,22 +87,11 @@ class Stripe(ABC):
     def get(self):
         pass
 
-    def _get_params(self):
-        return {
-            "created": {
-                "gte": self.start,
-                "lte": self.end,
-            },
-            "limit": 100,
-        }
-
     @abstractmethod
     def transform(self, rows):
         pass
 
     def load(self, rows):
-        # with open("test.json", "w") as f:
-            # json.dump(rows, f)
         return BQ_CLIENT.load_table_from_json(
             rows,
             f"{DATASET}._stage_{self.table}",
@@ -102,14 +113,15 @@ class Stripe(ABC):
                 FROM {DATASET}._stage_{self.table}
             )
             WHERE row_num = 1
-        """
-        BQ_CLIENT.query(query).result()
+            """
+        BQ_CLIENT.query(query)
 
     def run(self):
         rows = self.get()
+        rows = [i.to_dict_recursive() for i in rows.auto_paging_iter()]
         responses = {
-            "start": datetime.fromtimestamp(self.start).strftime(TIMESTAMP_FORMAT),
-            "end": datetime.fromtimestamp(self.end).strftime(TIMESTAMP_FORMAT),
+            "start": datetime.fromtimestamp(self.start).isoformat(timespec='seconds'),
+            "end": datetime.fromtimestamp(self.end).isoformat(timespec='seconds'),
             "num_processed": len(rows),
         }
         if len(rows) > 0:
@@ -120,14 +132,23 @@ class Stripe(ABC):
         return responses
 
 
-class BalanceTransactions(Stripe):
-    table = "BalanceTransactions"
+class BalanceTransaction(Stripe):
+    def __init__(self, start, end):
+        super().__init__(start, end)
+
+    @property
+    def table(self):
+        return "BalanceTransaction"
+
+    @property
+    def expand(self):
+        return ["data.source"]
 
     def get(self):
-        params = self._get_params()
-        expand = ["data.source"]
-        results = stripe.BalanceTransaction.list(**params, expand=expand)
-        rows = [i.to_dict_recursive() for i in results.auto_paging_iter()]
+        rows = stripe.BalanceTransaction.list(
+            **self.params,
+            expand=self.expand,
+        )
         return rows
 
     def transform(self, rows):
@@ -140,16 +161,22 @@ class BalanceTransactions(Stripe):
 
 
 class Charge(Stripe):
-    table = "Charge"
-
     def __init__(self, start, end):
         super().__init__(start, end)
 
+    @property
+    def table(self):
+        return "Charge"
+
+    @property
+    def expand(self):
+        return ["data.source"]
+
     def get(self):
-        params = self._get_params()
-        expand = ["data.source"]
-        results = stripe.Charge.list(**params, expand=expand)
-        rows = [i.to_dict_recursive() for i in results.auto_paging_iter()]
+        rows = stripe.Charge.list(
+            **self.params,
+            expand=self.expand,
+        )
         return rows
 
     def transform(self, rows):
@@ -170,16 +197,22 @@ class Charge(Stripe):
 
 
 class Customer(Stripe):
-    table = "Customer"
-
     def __init__(self, start, end):
         super().__init__(start, end)
 
+    @property
+    def table(self):
+        return "Customer"
+
+    @property
+    def expand(self):
+        return []
+
     def get(self):
-        params = self._get_params()
-        expand = []
-        results = stripe.Customer.list(**params, expand=expand)
-        rows = [i.to_dict_recursive() for i in results.auto_paging_iter()]
+        rows = stripe.Customer.list(
+            **self.params,
+            expand=self.expand,
+        )
         return rows
 
     def transform(self, _rows):
