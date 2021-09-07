@@ -1,11 +1,11 @@
-name: deploy
+name: CI/CD
 on:
   push:
     branches: [master]
   workflow_dispatch:
 
 env:
-  FUNCTIONS_NAME: F3Brand_Stripe
+  FUNCTIONS_NAME: f3brand_stripe
   REGION: us-central1
 
 jobs:
