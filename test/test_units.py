@@ -15,7 +15,7 @@ from .utils import process
     "start,end",
     [
         (None, None),
-        ("2020-01-01", "2021-01-01"),
+        ("2021-07-01", "2021-09-01"),
     ],
     ids=[
         "auto",
