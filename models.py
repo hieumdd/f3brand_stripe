@@ -215,15 +215,26 @@ class Customer(Stripe):
         )
         return rows
 
-    def transform(self, _rows):
-        rows = [
+    def transform(self, rows):
+        rows =  [
             {
                 "id": row["id"],
                 "object": row["object"],
                 "created": row["created"],
                 "name": row["name"],
                 "email": row["email"],
+                "metadata": {
+                    "kjb_member_id": row["metadata"].get("kjb_member_id"),
+                    "street_line_1": row["metadata"].get("street_line_1"),
+                    "city": row["metadata"].get("city"),
+                    "country": row["metadata"].get("country"),
+                    "region": row["metadata"].get("region"),
+                    "postal_code": row["metadata"].get("postal_code"),
+                    "phone_number": row["metadata"].get("phone_number"),
+                }
+                if row.get("metadata")
+                else {},
             }
-            for row in _rows
+            for row in rows
         ]
         return rows

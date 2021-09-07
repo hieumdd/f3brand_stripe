@@ -1,6 +1,6 @@
 from .utils import process
 
-START = "2021-01-01"
+START = "2021-07-01"
 END = "2021-08-01"
 
 
