@@ -1,5 +1,4 @@
 import os
-import json
 from datetime import datetime, timezone
 from abc import ABC, abstractmethod
 
@@ -35,11 +34,6 @@ class Stripe(ABC):
 
     @property
     @abstractmethod
-    def stripe_obj(self):
-        pass
-
-    @property
-    @abstractmethod
     def expand(self):
         pass
 
@@ -71,14 +65,12 @@ class Stripe(ABC):
         return start, end
 
     def _get(self):
-        rows = self.stripe_obj.list(
-            {
-                "created": {
-                    "gte": self.start,
-                    "lte": self.end,
-                },
-                "limit": 100,
+        rows = getattr(stripe, self.table).list(
+            created={
+                "gte": self.start,
+                "lte": self.end,
             },
+            limit=100,
             expand=self.expand,
         )
         return [i.to_dict_recursive() for i in rows.auto_paging_iter()]
@@ -130,7 +122,6 @@ class Stripe(ABC):
 
 class BalanceTransaction(Stripe):
     table = "BalanceTransaction"
-    stripe_obj = stripe.BalanceTransaction
     expand = []
     schema = [
         {"name": "id", "type": "STRING"},
@@ -169,7 +160,6 @@ class BalanceTransaction(Stripe):
 
 class Charge(Stripe):
     table = "Charge"
-    stripe_obj = stripe.Charge
     expand = []
     schema = [
         {"name": "id", "type": "STRING"},
@@ -254,7 +244,6 @@ class Charge(Stripe):
 
 class Customer(Stripe):
     table = "Customer"
-    stripe_obj = stripe.Customer
     expand = []
     schema = [
         {"name": "id", "type": "STRING"},
