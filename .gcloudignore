@@ -1,0 +1,4 @@
+.github
+test
+pytest.ini
+.gitignore
