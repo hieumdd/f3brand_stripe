@@ -18,7 +18,7 @@ BQ_CLIENT = bigquery.Client()
 
 class Stripe(ABC):
     def __init__(self, start, end):
-        self.keys, self.schema = self.get_config()
+        # self.keys, self.schema = self.get_config()
         self.start, self.end = self.get_time_range(start, end)
 
     @staticmethod
@@ -78,10 +78,10 @@ class Stripe(ABC):
 
         return start, end
 
-    def get_config(self):
-        with open(f"configs/{self.table}.json", "r") as f:
-            config = json.load(f)
-        return config["keys"], config["schema"]
+    # def get_config(self):
+    #     with open(f"configs/{self.table}.json", "r") as f:
+    #         config = json.load(f)
+    #     return config["keys"], config["schema"]
 
     @abstractmethod
     def get(self):
@@ -197,16 +197,33 @@ class Charge(Stripe):
 
 
 class Customer(Stripe):
+    table = "Customer"
+    expand = []
+    keys = {"p_key": ["id"], "incre_key": "created"}
+    schema = [
+        {"name": "id", "type": "STRING"},
+        {"name": "object", "type": "STRING"},
+        {"name": "created", "type": "TIMESTAMP"},
+        {"name": "name", "type": "STRING"},
+        {"name": "email", "type": "STRING"},
+        {
+            "name": "metadata",
+            "type": "RECORD",
+            "fields": [
+                {"name": "kjb_member_id", "type": "STRING"},
+                {"name": "street_line_1", "type": "STRING"},
+                {"name": "street_line_2", "type": "STRING"},
+                {"name": "city", "type": "STRING"},
+                {"name": "country", "type": "STRING"},
+                {"name": "region", "type": "STRING"},
+                {"name": "postal_code", "type": "STRING"},
+                {"name": "phone_number", "type": "STRING"},
+            ],
+        },
+    ]
+
     def __init__(self, start, end):
         super().__init__(start, end)
-
-    @property
-    def table(self):
-        return "Customer"
-
-    @property
-    def expand(self):
-        return []
 
     def get(self):
         rows = stripe.Customer.list(
@@ -216,7 +233,8 @@ class Customer(Stripe):
         return rows
 
     def transform(self, rows):
-        rows =  [
+        rows
+        rows = [
             {
                 "id": row["id"],
                 "object": row["object"],
@@ -226,6 +244,7 @@ class Customer(Stripe):
                 "metadata": {
                     "kjb_member_id": row["metadata"].get("kjb_member_id"),
                     "street_line_1": row["metadata"].get("street_line_1"),
+                    "street_line_2": row["metadata"].get("street_line_2"),
                     "city": row["metadata"].get("city"),
                     "country": row["metadata"].get("country"),
                     "region": row["metadata"].get("region"),
