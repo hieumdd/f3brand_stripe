@@ -1,25 +1,19 @@
-import json
-import base64
+from controller.pipelines import factory, run
 
-from models import Stripe
+DATASET = "stripe"
 
 
-def main(request):
-    request_json = request.get_json()
-    message = request_json["message"]
-    data_bytes = message["data"]
-    data = json.loads(base64.b64decode(data_bytes).decode("utf-8"))
+def main(request) -> dict:
+    data: dict = request.get_json()
     print(data)
 
-    job = Stripe.factory(
-        data["resource"],
-        data.get("start"),
-        data.get("end"),
-    )
-    responses = {
-        "pipelines": "Stripe",
-        "results": job.run(),
-    }
-
-    print(responses)
-    return responses
+    if "table" in data:
+        responses = run(
+            DATASET,
+            factory(data["table"]),
+            data,
+        )
+        print(responses)
+        return responses
+    else:
+        raise ValueError(data)
